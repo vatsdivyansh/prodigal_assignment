@@ -1,0 +1,38 @@
+# local configs
+.env
+.env.*
+!.env.example
+
+# Python-related 
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# venvs 
+my_venv/
+venv/
+.venv/
+env/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local outputs / generated artifacts
+eval_results.json
