@@ -1,7 +1,5 @@
 # Submission Note — Payment Collection AI Agent
-
-**Date:** 2026-04-25  
-**Repository:** `<add-your-repo-link-here>`
+**Date:** 2026-04-26
 
 ## 1) Architecture selected:
 Deterministic State Machine + Agentic LLM layer (not fully DSM-only and not fully Agent-only).

@@ -131,11 +131,7 @@ After running `python main.py`, capture terminal screenshots and place them in `
 ## Architecture Overview
 
 See `design_document.md` for full architecture.
-
-![Architecture overview](./design_document.md)
-
 ---
-
 
 ## 3) Evaluation Approach
 
@@ -161,8 +157,6 @@ Correctness is measured **turn-by-turn** using deterministic expectations:
   - Per-scenario summary
   - Overall summary
   - Persistent JSON report at `eval_results.json`
-### Evaluation run screenshot
-
 
 ### Observations and current limitations
 - The agent performs strongly on the deterministic flows included in the 15 scripted scenarios.
