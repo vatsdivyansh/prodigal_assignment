@@ -2,20 +2,20 @@
 **Date:** 2026-04-26
 
 ## 1) Architecture selected:
-Deterministic State Machine + Agentic LLM layer (not fully DSM-only and not fully Agent-only).
-Pure DSM is too rigid for natural user language; pure agentic flow is too risky for verification and payment gating.  
-This project uses a hybrid design:
-- Deterministic state machine controls flow, policy, and all security-critical transitions.
-- LLM is limited to natural-language extraction and response generation.
-- All gating checks are enforced in Python for deterministic, auditable behavior.
+Pure LLM-Driven Tool-Calling Architecture (Agentic).
+The previous Deterministic State Machine (DSM) architecture enforced strict routing in Python. This has been fully migrated to an LLM-driven tool-calling paradigm to provide greater conversational flexibility while maintaining structured interactions with external APIs.
+- The LLM orchestrates the entire flow, reasoning about what to do next based on the strict policy in the system prompt.
+- The Python code acts as an execution shell that exposes core `tools` to the LLM (`lookup_account`, `verify_identity`, `process_payment`).
+- Crucially, security is maintained by caching sensitive PII (like name and DOB) in Python memory rather than returning it to the LLM. The LLM only receives a sanitized success response from `lookup_account`.
 
 ### High-level architecture diagram
 ![High-level architecture](./diagrams/high-level-architecture.png)
 
 ## 2) Implementation
-The implementation follows a deterministic state-driven orchestration centered on `Agent.next()`.
-`ConversationState` and `Phase` enforce strict control flow, while `validators.py` handles rule-based checks and `tools.py` manages external API interactions.
-The LLM layer is used only for natural-language extraction/response, with all critical decisions enforced in Python.
+The implementation relies heavily on the LLM's native function-calling capabilities. `Agent.next()` maintains the conversation history and enters a loop:
+1. Call the LLM with the latest user input and a list of available tools.
+2. If the LLM generates a tool call, execute the wrapped Python function (which handles security, caching, and local validation).
+3. Return the sanitized tool execution result to the LLM and loop again until the LLM yields a natural language response.
 
 ### Implementation architecture diagram
 

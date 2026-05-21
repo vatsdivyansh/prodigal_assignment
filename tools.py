@@ -1,9 +1,20 @@
+import os
 
 import requests
-from typing import Union
+from dotenv import load_dotenv
 
-BASE_URL = "https://se-payment-verification-api.service.external.usea2.aws.prodigaltech.com"
-TIMEOUT = 10 
+load_dotenv()
+
+TIMEOUT = 10
+
+
+def _base_url() -> str:
+    url = os.getenv("PAYMENT_API_BASE_URL", "").strip().rstrip("/")
+    if not url:
+        raise RuntimeError(
+            "PAYMENT_API_BASE_URL is not set. Add it to your .env file (see .env.example)."
+        )
+    return url
 
 
 def lookup_account(account_id: str) -> dict:
@@ -14,7 +25,7 @@ def lookup_account(account_id: str) -> dict:
     Success keys: account_id, full_name, dob, aadhaar_last4, pincode, balance
     Error keys: error_code, message
     """
-    url = f"{BASE_URL}/api/lookup-account"
+    url = f"{_base_url()}/api/lookup-account"
     try:
         response = requests.post(
             url,
@@ -51,7 +62,7 @@ def process_payment(account_id: str, amount: float, card_data: dict) -> dict:
         Success: {"success": True, "transaction_id": "txn_..."}
         Failure: {"success": False, "error_code": "..."}
     """
-    url = f"{BASE_URL}/api/process-payment"
+    url = f"{_base_url()}/api/process-payment"
     payload = {
         "account_id": account_id,
         "amount": round(amount, 2),

@@ -1,6 +1,16 @@
-import requests, json
+import json
+import os
 
-r = requests.get('https://se-payment-verification-api.service.external.usea2.aws.prodigaltech.com/openapi/json', timeout=8)
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+base = os.getenv("PAYMENT_API_BASE_URL", "").strip().rstrip("/")
+if not base:
+    raise SystemExit("Set PAYMENT_API_BASE_URL in your .env file (see .env.example).")
+
+r = requests.get(f"{base}/openapi/json", timeout=8)
 spec = r.json()
 
 for path, methods in spec.get('paths', {}).items():

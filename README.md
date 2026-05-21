@@ -15,7 +15,7 @@ A production-ready conversational AI agent that handles an end-to-end payment co
 | `evaluate.py` | Automated evaluation suite |
 | `requirements.txt` | Python dependencies |
 | `design_document.md` | Architecture, decisions, tradeoffs, assumptions |
-| `.env` | Local configuration (`GROQ_API_KEY`) |
+| `.env` | Local configuration (`GROQ_API_KEY`, `PAYMENT_API_BASE_URL`) |
 
 ---
 
@@ -46,11 +46,14 @@ pip install -r requirements.txt
 
 ### 4. Configure environment variables
 
-Create a `.env` file in the project root:
+Copy `.env.example` to `.env` and set:
 
 ```
-GROQ_API_KEY=your_groq_api_key_here (or if using any other LLM provider,adjust accordingly)
+GROQ_API_KEY=your_groq_api_key_here
+PAYMENT_API_BASE_URL=https://your-payment-api-host.example.com
 ```
+
+`PAYMENT_API_BASE_URL` is the assignment payment API base URL (no trailing slash). It is read from `.env` only and is not committed to the repository.
 
 ---
 
